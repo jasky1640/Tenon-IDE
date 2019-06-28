@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="editors.ExampleEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            default="true"
+            extensions="t"
+            icon="icons/sample.gif"
+            id="joe.example"
+            name="%editor.name">
+      </editor>
+￼￼
+
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="doCompile"
+            name="%command.name">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="doCompile"
+               label="%command.label"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="console.DoCompile"
+            commandId="doCompile">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.console.consoleFactories">
+      <consoleFactory
+            class="console.ConsoleFactory1"
+            label="%consoleFactory.label">
+      </consoleFactory>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="TenonEditor.doCompile"
+            label="%actionSet.label"
+            visible="true">
+         <menu
+               id="TenonEditor.menu1"
+               label="%menu.label">
+         </menu>
+         <action
+               class="console.DoCom"
+               id="TenonEditor.action1"
+               label="%action.label"
+               style="push"
+               toolbarPath="Normal/additon">
+         </action>
+      </actionSet>
+   </extension>
+
+</plugin>
