@@ -1,0 +1,11 @@
+/.metadata/
+*.swp
+*~
+*.tmp
+*.class
+*.pyc
+*.bak
+*.log
+/tenon-ide-*.tar.gz
+*.orig
+*.class

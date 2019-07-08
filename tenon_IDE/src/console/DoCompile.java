@@ -1,11 +1,7 @@
 package console;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import java.io.BufferedReader;
-import java.io.Closeable;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import console.Shell;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.ui.PlatformUI;
