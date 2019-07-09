@@ -1,4 +1,4 @@
-package debugview;
+package debugview.variableview;
 
 import java.util.List;
 import java.util.ArrayList;

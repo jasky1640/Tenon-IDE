@@ -166,7 +166,7 @@
         <view 
             id="debugVariableView"
             name="Tenon Variable"
-            class="debugview.DebugVariableView"
+            class="debugview.variableview.DebugVariableView"
             icon="icons\variable.png"/>
     </extension>
 
@@ -175,7 +175,7 @@
         <view 
             id="debugBreakpointView"
             name="Tenon Breakpoint"
-            class="debugview.DebugBreakpointView"
+            class="debugview.breakpointview.DebugBreakpointView"
             icon="icons\breakpoint.png"/>
     </extension>
 

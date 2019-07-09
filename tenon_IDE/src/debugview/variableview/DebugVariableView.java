@@ -1,4 +1,4 @@
-package debugview;
+package debugview.variableview;
 
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.jface.viewers.TableViewer;

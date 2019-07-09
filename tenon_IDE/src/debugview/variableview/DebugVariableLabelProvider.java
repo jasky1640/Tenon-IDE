@@ -1,7 +1,4 @@
-package debugview;
-
-//import java.io.FileInputStream;
-//import java.io.FileNotFoundException;
+package debugview.variableview;
 
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;

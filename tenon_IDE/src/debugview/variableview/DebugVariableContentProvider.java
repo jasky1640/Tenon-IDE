@@ -1,4 +1,4 @@
-package debugview;
+package debugview.variableview;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 
@@ -9,11 +9,11 @@ public class DebugVariableContentProvider implements IStructuredContentProvider{
 	
 	/**
 	* Gets the elements for the table in the form of Object array
-	* @param obj The DebugVariableList that contains all pairs of debugging variable and value
+	* @param inputElement The DebugVariableList that contains all pairs of debugging variable and value
 	* @return Object[] All pairs of debugging variable and value as Object array
 	*/	
-	public Object[] getElements (Object obj) {
+	public Object[] getElements (Object inputElement) {
 		//return all pairs of debugging variable and value as Object array
-		return ((DebugVariableList)obj).getDebugVariables().toArray();
+		return ((DebugVariableList)inputElement).getDebugVariables().toArray();
 	}
 }

@@ -1,4 +1,4 @@
-package debugview;
+package debugview.variableview;
 
 /**
  * This class contains constants for the Debug Variable View

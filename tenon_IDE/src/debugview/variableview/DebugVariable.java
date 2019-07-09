@@ -1,4 +1,4 @@
-package debugview;
+package debugview.variableview;
 
 /**
  * This class represents a pair of variable and value for debugging
