@@ -1,31 +1,29 @@
 package debugCommand;
 
-import console.ConsoleFactory1;
+import debugCommand.Utils.Consumer;
+import debugCommand.Utils.Producer;
+import debugCommand.constant.ConstantString;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.console.MessageConsoleStream;
 
+/**
+ * @ClassName: BreakpointT
+ * @Description: 向后台Tvm模式中传入breakpoint命令按钮
+ * @author weijian
+ * @date 2019年7月13日
+ * 
+ */
 public class BreakpointT extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		String filePath = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()
-				.getEditorInput().getToolTipText();
 
-		MessageConsoleStream printer = ConsoleFactory1.getConsole().newMessageStream();
-		printer.setActivateOnWrite(true);
+		Thread breakpoinThread = new Thread(new Producer(ConstantString.BREAKPOINT));
+		Thread consumerThread = new Thread(new Consumer());
 
-		Utils utils = new Utils();
-		utils.createTask0asm(filePath);
+		breakpoinThread.start();
+		consumerThread.start();
 
-		CreateBreakpoint createBreakpoint = new CreateBreakpoint();
-		createBreakpoint.start();
-		try {
-			createBreakpoint.wait();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		printer.println("createBreakpoint");
 		return null;
 	}
 }

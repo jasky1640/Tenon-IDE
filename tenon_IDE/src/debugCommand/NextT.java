@@ -1,31 +1,28 @@
 package debugCommand;
 
-import console.ConsoleFactory1;
+import debugCommand.Utils.Consumer;
+import debugCommand.Utils.Producer;
+import debugCommand.constant.ConstantString;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.console.MessageConsoleStream;
 
+/**
+ * @ClassName: NextT
+ * @Description: 向后台Tvm模式中传入next命令按钮
+ * @author weijian
+ * @date 2019年7月13日
+ * 
+ */
 public class NextT extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		String filePath = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()
-				.getEditorInput().getToolTipText();
 
-		MessageConsoleStream printer = ConsoleFactory1.getConsole().newMessageStream();
-		printer.setActivateOnWrite(true);
+		Thread nextThread = new Thread(new Producer(ConstantString.NEXT));
+		Thread consumerThread = new Thread(new Consumer());
 
-		Utils utils = new Utils();
-		utils.createTask0asm(filePath);
-
-		CreateNext createNext = new CreateNext();
-		createNext.start();
-		try {
-			createNext.wait();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		printer.println("createNext");
+		nextThread.start();
+		consumerThread.start();
 
 		return null;
 	}

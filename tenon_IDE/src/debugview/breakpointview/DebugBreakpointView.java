@@ -77,9 +77,6 @@ public class DebugBreakpointView extends ViewPart{
 	    for (int i = 0, n = table.getColumnCount(); i < n; i++) {
 	        table.getColumn(i).pack();
 	    }
-	    
-	    //Turn on the header
-	    table.setHeaderVisible(false);
 	}
 
 	/**
@@ -98,6 +95,5 @@ public class DebugBreakpointView extends ViewPart{
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
 	}
 }

@@ -13,7 +13,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.plugin.AbstractUIPlugin; 
 import org.osgi.framework.Bundle; 
  
-
 public abstract class AbstractFileLocatorActivator extends AbstractUIPlugin { 
  
     /**

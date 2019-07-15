@@ -1,12 +1,18 @@
 package debugview;
 
 import org.eclipse.ui.PlatformUI;
+import debugCommand.OpenTvmMode;
+import debugCommand.Utils.Utils;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.ui.PartInitException;
 
-public class DoDebugView extends AbstractHandler{
+public class DoDebugView extends AbstractHandler {
+
+	public static Thread openTvmModeThread2 = new Thread();
+
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {
@@ -16,6 +22,16 @@ public class DoDebugView extends AbstractHandler{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		String filePath = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()
+				.getEditorInput().getToolTipText();
+
+		Utils utils = new Utils();
+		utils.createTask0asm(filePath);
+
+		openTvmModeThread2 = new Thread(OpenTvmMode.getTvmThread());
+		openTvmModeThread2.start();
+
 		return null;
 	}
 }

@@ -1,52 +1,27 @@
 package debugCommand;
 
-import console.ConsoleFactory1;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import debugCommand.Utils.Consumer;
+import debugCommand.Utils.Producer;
+import debugCommand.constant.ConstantString;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.ui.console.MessageConsoleStream;
 
+/**
+ * @ClassName: QuitTvm
+ * @Description: 退出Tvm
+ * @author weijian
+ * @date 2019年7月13日
+ * 
+ */
 public class QuitTvm extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		MessageConsoleStream printer = ConsoleFactory1.getConsole().newMessageStream();
-		printer.setActivateOnWrite(true);
-		try {
-			BufferedWriter bw = new BufferedWriter(
-					new OutputStreamWriter(OpenTvmMode.tvmThreadPocess.getOutputStream()));
+		Thread quitThread = new Thread(new Producer(ConstantString.TVMQUIT));
+		Thread consumerThread = new Thread(new Consumer());
 
-			bw.write("quit \n");
-
-			bw.flush();
-
-			InputStream is = OpenTvmMode.tvmThreadPocess.getInputStream();
-			InputStreamReader isr = null;
-			isr = new InputStreamReader(is, "UTF-8");
-			BufferedReader in = new BufferedReader(isr);
-			String line = null;
-			while ((line = in.readLine()) != null) {
-				printer.println(line + "\n");
-			}
-
-			OpenTvmMode.tvmThreadPocess.getErrorStream();
-			InputStreamReader isrE = null;
-			isrE = new InputStreamReader(is, "UTF-8");
-			BufferedReader err = new BufferedReader(isrE);
-
-			String lineE = null;
-
-			while ((lineE = err.readLine()) != null) {
-				printer.println(lineE + "\n");
-			}
-
-			OpenTvmMode.tvmThreadPocess.destroy();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		quitThread.start();
+		consumerThread.start();
 
 		return null;
 	}
