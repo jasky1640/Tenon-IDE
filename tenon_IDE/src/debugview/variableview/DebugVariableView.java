@@ -1,6 +1,9 @@
 package debugview.variableview;
 
 import org.eclipse.ui.part.ViewPart;
+
+import debugview.utils.DebugViewMessages;
+
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -32,18 +35,18 @@ public class DebugVariableView extends ViewPart{
 		
 		//Add the variable column
 		TableColumn column = new TableColumn(table,SWT.LEFT);
-		column.setText("Variable");
+		column.setText(DebugViewMessages.DebugVariableView_Variable);
 		
 		//Add the value column
 		column = new TableColumn(table,SWT.LEFT);
-		column.setText("Value");
+		column.setText(DebugViewMessages.DebugVariableView_Value);
 		
 		//Fill in the table, For test purpose
 		DebugVariableList testList = new DebugVariableList();
-		DebugVariable test1 = new DebugVariable("a","1");
-		DebugVariable test2 = new DebugVariable("b","2");
-		DebugVariable test3 = new DebugVariable("c","hello");
-		DebugVariable test4 = new DebugVariable("d","hi");
+		DebugVariable test1 = new DebugVariable("a","1"); //$NON-NLS-1$
+		DebugVariable test2 = new DebugVariable("b","2"); //$NON-NLS-1$
+		DebugVariable test3 = new DebugVariable("c","hello"); //$NON-NLS-1$
+		DebugVariable test4 = new DebugVariable("d","hi"); //$NON-NLS-1$
 		testList.add(test1);
 		testList.add(test2);
 		testList.add(test3);

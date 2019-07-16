@@ -71,8 +71,6 @@ Eclipse插件的依赖文件
  - 下一步（跳过断点）
  - 退出Tvm模式
 
-不支持自定义断点功能，目前断点设置硬编码为第五行。自定义断点功能将于下个版本实现。
-
 ![安装插件后的Eclipse](pic/V1.1_Tvm.png)
 
 ### V0.3.0
@@ -89,8 +87,8 @@ Eclipse插件的依赖文件
  - 下一步（跳过断点） （图中2图标）
  - 退出Tvm模式 （图中3图标）
  - 当前断点一览 （图中4图标）
- - 
-![安装插件后的Eclipse](pic/V0.3.0——Debug_Breakpoint.png)
+ 
+![安装插件后的Eclipse](pic/V0.3.0_Debug_Breakpoint.png)
 
 #### 进入Tvm模式调试程序
 

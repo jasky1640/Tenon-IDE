@@ -6,18 +6,17 @@ import java.util.logging.Logger;
 import debugCommand.OpenTvmMode;
 
 /**
- * @ClassName: Consumer
- * @Description: 从表中取出调试命令，并调用 Utils.callBackCommand方法
+ * @ClassName: TakeCommand
+ * @Description: 取出调试命令，并调用Utils.callBackCommand()
  * @author weijian
- * @date 2019年7月13日
+ * @date 2019年7月14日
  * 
  */
-public class Consumer implements Runnable {
-
+public class TakeCommand implements Runnable {
 	public Process callbackProcess = null;
 
 	@SuppressWarnings("static-access")
-	public Consumer() {
+	public TakeCommand() {
 		this.callbackProcess = OpenTvmMode.getTvmThread().tvmThreadPocess;
 	}
 
@@ -40,4 +39,5 @@ public class Consumer implements Runnable {
 			}
 		}
 	}
+
 }

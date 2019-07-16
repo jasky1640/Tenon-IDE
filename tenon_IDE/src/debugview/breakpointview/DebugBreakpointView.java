@@ -6,6 +6,7 @@ import debugview.actions.NextAction;
 import debugview.actions.RunAction;
 import debugview.actions.TerminatedAction;
 import debugview.utils.Activator;
+import debugview.utils.DebugViewMessages;
 
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.swt.SWT;
@@ -38,20 +39,20 @@ public class DebugBreakpointView extends ViewPart{
 
 		//Add run button
 		RunAction runAction = new RunAction();
-		runAction.setToolTipText("Run");
-		runAction.setImageDescriptor(Activator.getImageDescriptor("icons/run.png"));
+		runAction.setToolTipText(DebugViewMessages.DebugBreakpointView_Run);
+		runAction.setImageDescriptor(Activator.getImageDescriptor("icons/run.png")); //$NON-NLS-1$
 		getViewSite().getActionBars().getToolBarManager().add(runAction);
 		
 		//Add next button
 		NextAction nextAction = new NextAction();
-		nextAction.setToolTipText("Next");
-		nextAction.setImageDescriptor(Activator.getImageDescriptor("icons/next.png"));
+		nextAction.setToolTipText(DebugViewMessages.DebugBreakpointView_Next);
+		nextAction.setImageDescriptor(Activator.getImageDescriptor("icons/next.png")); //$NON-NLS-1$
 		getViewSite().getActionBars().getToolBarManager().add(nextAction);
 		
 		//Add terminated button to quit Tvm mode
 		TerminatedAction terminatedAction = new TerminatedAction();
-		terminatedAction.setToolTipText("Quit Tvm Mode");
-		terminatedAction.setImageDescriptor(Activator.getImageDescriptor("icons/quit.png"));
+		terminatedAction.setToolTipText(DebugViewMessages.DebugBreakpointView_Quit_Tvm_Mode);
+		terminatedAction.setImageDescriptor(Activator.getImageDescriptor("icons/quit.png")); //$NON-NLS-1$
 		getViewSite().getActionBars().getToolBarManager().add(terminatedAction);
 		
 		/*
@@ -65,8 +66,8 @@ public class DebugBreakpointView extends ViewPart{
 		
 		//Fill in the table, For test purpose
 		DebugBreakpointList testList = new DebugBreakpointList();
-		DebugBreakpoint test1 = new DebugBreakpoint("[Line 5] - main");
-		DebugBreakpoint test2 = new DebugBreakpoint("[Line 11] - main");
+		DebugBreakpoint test1 = new DebugBreakpoint("[Line 5] - main"); //$NON-NLS-1$
+		DebugBreakpoint test2 = new DebugBreakpoint("[Line 11] - main"); //$NON-NLS-1$
 		testList.add(test1);
 		testList.add(test2);
 		

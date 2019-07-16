@@ -23,15 +23,15 @@ public class OpenTvmMode implements Runnable {
 
 	public static Process tvmThreadPocess = null;
 
-	private static OpenTvmMode openTvmMode2 = null;
+	private static OpenTvmMode openTvmMode = null;
 
 	public static OpenTvmMode getTvmThread() {
 		synchronized (OpenTvmMode.class) {
-			if (openTvmMode2 == null) {
-				openTvmMode2 = new OpenTvmMode();
+			if (openTvmMode == null) {
+				openTvmMode = new OpenTvmMode();
 			}
 		}
-		return openTvmMode2;
+		return openTvmMode;
 	}
 
 	@Override

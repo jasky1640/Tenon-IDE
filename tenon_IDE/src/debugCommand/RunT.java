@@ -1,7 +1,7 @@
 package debugCommand;
 
-import debugCommand.Utils.Consumer;
-import debugCommand.Utils.Producer;
+import debugCommand.Utils.PutCommand;
+import debugCommand.Utils.TakeCommand;
 import debugCommand.constant.ConstantString;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -18,11 +18,11 @@ import org.eclipse.core.commands.ExecutionException;
 public class RunT extends AbstractHandler {
 
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		Thread runThread = new Thread(new Producer(ConstantString.RUN));
-		Thread consumerThread = new Thread(new Consumer());
+		Thread runThread = new Thread(new PutCommand(ConstantString.RUN));
+		Thread takeCommandThread = new Thread(new TakeCommand());
 
 		runThread.start();
-		consumerThread.start();
+		takeCommandThread.start();
 
 		return null;
 	}

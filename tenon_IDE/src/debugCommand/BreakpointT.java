@@ -1,7 +1,7 @@
 package debugCommand;
 
-import debugCommand.Utils.Consumer;
-import debugCommand.Utils.Producer;
+import debugCommand.Utils.PutCommand;
+import debugCommand.Utils.TakeCommand;
 import debugCommand.constant.ConstantString;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -18,11 +18,11 @@ import org.eclipse.core.commands.ExecutionException;
 public class BreakpointT extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
-		Thread breakpoinThread = new Thread(new Producer(ConstantString.BREAKPOINT));
-		Thread consumerThread = new Thread(new Consumer());
+		Thread breakpoinThread = new Thread(new PutCommand(ConstantString.BREAKPOINT));
+		Thread takeCommandThread = new Thread(new TakeCommand());
 
 		breakpoinThread.start();
-		consumerThread.start();
+		takeCommandThread.start();
 
 		return null;
 	}

@@ -11,7 +11,7 @@ import org.eclipse.ui.PartInitException;
 
 public class DoDebugView extends AbstractHandler {
 
-	public static Thread openTvmModeThread2 = new Thread();
+	public static Thread openTvmModeThread = new Thread();
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -29,8 +29,8 @@ public class DoDebugView extends AbstractHandler {
 		Utils utils = new Utils();
 		utils.createTask0asm(filePath);
 
-		openTvmModeThread2 = new Thread(OpenTvmMode.getTvmThread());
-		openTvmModeThread2.start();
+		openTvmModeThread = new Thread(OpenTvmMode.getTvmThread());
+		openTvmModeThread.start();
 
 		return null;
 	}

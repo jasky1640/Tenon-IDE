@@ -165,7 +165,7 @@
     <extension point="org.eclipse.ui.views">
         <view 
             id="debugVariableView"
-            name="Tenon Variable"
+            name="%debugvarview.name"
             class="debugview.variableview.DebugVariableView"
             icon="icons\variable.png"/>
     </extension>
@@ -174,7 +174,7 @@
     <extension point="org.eclipse.ui.views">
         <view 
             id="debugBreakpointView"
-            name="Tenon Breakpoint"
+            name="%debugbpview.name"
             class="debugview.breakpointview.DebugBreakpointView"
             icon="icons\breakpoint.png"/>
     </extension>
@@ -206,7 +206,7 @@
             <command
                 commandId="doDebugView"
                 icon="icons/debug.png"
-                label="Tenon调试"
+                label="%debugview.label"
                 style="push">
             </command>
         </menuContribution>       
@@ -218,7 +218,7 @@
                 <command
                     commandId="doDebugView"
                     icon="icons/debug.png"
-                    tooltip="Tenon调试">
+                    tooltip="%debugview.label">
                 </command>
             </toolbar>
         </menuContribution>

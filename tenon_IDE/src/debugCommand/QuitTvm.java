@@ -1,7 +1,7 @@
 package debugCommand;
 
-import debugCommand.Utils.Consumer;
-import debugCommand.Utils.Producer;
+import debugCommand.Utils.PutCommand;
+import debugCommand.Utils.TakeCommand;
 import debugCommand.constant.ConstantString;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -17,11 +17,11 @@ import org.eclipse.core.commands.ExecutionException;
  */
 public class QuitTvm extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		Thread quitThread = new Thread(new Producer(ConstantString.TVMQUIT));
-		Thread consumerThread = new Thread(new Consumer());
+		Thread quitThread = new Thread(new PutCommand(ConstantString.TVMQUIT));
+		Thread takeCommandThread = new Thread(new TakeCommand());
 
 		quitThread.start();
-		consumerThread.start();
+		takeCommandThread.start();
 
 		return null;
 	}

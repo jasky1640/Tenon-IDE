@@ -32,3 +32,5 @@ Export-Package:
  example,
  uk.ac.rhul.csle.gll,
  uk.ac.rhul.csle.text
+Bundle-Localization: plugin
+                     

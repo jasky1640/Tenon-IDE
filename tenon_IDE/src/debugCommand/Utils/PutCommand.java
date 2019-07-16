@@ -1,17 +1,17 @@
 package debugCommand.Utils;
 
 /**
- * @ClassName: Producer
- * @Description: 将调试命令放入表中
+ * @ClassName: TakeCommand
+ * @Description: 放入调试命令
  * @author weijian
- * @date 2019年7月13日
+ * @date 2019年7月14日
  * 
  */
-public class Producer implements Runnable {
+public class PutCommand implements Runnable {
 
 	private final String command;
 
-	public Producer(String commandString) {
+	public PutCommand(String commandString) {
 
 		this.command = commandString;
 
