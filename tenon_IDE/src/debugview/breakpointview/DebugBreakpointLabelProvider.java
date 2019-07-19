@@ -35,10 +35,16 @@ public class DebugBreakpointLabelProvider implements ITableLabelProvider {
 	*/	
 	@Override
 	public Image getColumnImage(Object element, int columnIndex) {	
-		if (columnIndex == COLUMN_BREAKPOINT) {
-			return Activator.getImageDescriptor("icons/coffeebreak.png").createImage();
+		DebugBreakpoint debugBreakpoint = (DebugBreakpoint) element;
+		if (columnIndex == COLUMN_BREAKPOINT) {			
+			if(debugBreakpoint.isEnabled()) {
+				return Activator.getImageDescriptor("icons/enabled.png").createImage();
+			}
+			else {
+				return Activator.getImageDescriptor("icons/disabled.png").createImage();
+			}
 		}
-		return null;	
+		return Activator.getImageDescriptor("icons/coffeebreak.png").createImage();	
 	}
 	
 	@Override

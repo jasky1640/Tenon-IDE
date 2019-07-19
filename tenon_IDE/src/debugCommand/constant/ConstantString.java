@@ -17,7 +17,24 @@ public class ConstantString {
 
 	public static final String RUN = "run";
 
+	public static final String BACKTRACE = "backtrace";
+
+	public static final String CONTINUE = "continue";
+
+	public static final String DELETE = "delete";
+
+	public static final String DISABLE = "disable";
+
+	public static final String SHOW = "show";
+
 	public static final String TVMQUIT = "quit";
+
+	/**
+	 * 是与否
+	 */
+	public static final String YES = "y";
+
+	public static final String NO = "n";
 
 	/**
 	 * 后台终端打开位置

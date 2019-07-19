@@ -16,6 +16,8 @@ import org.eclipse.core.commands.ExecutionException;
  * 
  */
 public class QuitTvm extends AbstractHandler {
+	
+	//Will be removed, keep for test purpose
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		Thread quitThread = new Thread(new PutCommand(ConstantString.TVMQUIT));
 		Thread takeCommandThread = new Thread(new TakeCommand());
@@ -24,5 +26,13 @@ public class QuitTvm extends AbstractHandler {
 		takeCommandThread.start();
 
 		return null;
+	}
+	
+	public static void quitTvm() {
+		Thread quitThread = new Thread(new PutCommand(ConstantString.TVMQUIT));
+		Thread takeCommandThread = new Thread(new TakeCommand());
+
+		quitThread.start();
+		takeCommandThread.start();
 	}
 }

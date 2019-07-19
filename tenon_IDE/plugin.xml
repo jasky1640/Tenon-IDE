@@ -41,64 +41,22 @@
             id="breakpointT"
             name="breakpointT">
       </command>
-   </extension>
-   
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-         allPopups="false"
-         locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-         <command
-               commandId="doCompile"
-               label="%command.label"
-               style="push">
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-         <command
-               commandId="doDebug"
-               label="Tvm模式开启"
-               style="push">
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-         <command
-               commandId="quitTvm"
-               label="Tvm模式退出"
-               style="push">
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-         <command
-               commandId="runT"
-               label="runT"
-               style="push">
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-         <command
-               commandId="nextT"
-               label="下一步(T)"
-               style="push">
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-         <command
-               commandId="breakpointT"
-               label="设置断点(T)"
-               style="push">
-         </command>
-      </menuContribution>
+      <command
+            id="backtraceT"
+            name="backtraceT">
+      </command>
+      <command
+            id="continueT"
+            name="continueT">
+      </command>
+      <command
+            id="disableT"
+            name="disableT">
+      </command>
+      <command
+            id="showT"
+            name="showT">
+      </command>
    </extension>
    
    <extension
@@ -127,6 +85,22 @@
             class="debugCommand.BreakpointT"
             commandId="breakpointT">
       </handler>
+      <handler
+            class="debugCommand.BacktraceT"
+            commandId="backtraceT">
+      </handler>
+      <handler
+            class="debugCommand.ContinueT"
+            commandId="continueT">
+      </handler>
+      <handler
+            class="debugCommand.DisableT"
+            commandId="disableT">
+      </handler>
+      <handler
+            class="debugCommand.ShowT"
+            commandId="showT">
+      </handler>
    </extension>
    
    <extension
@@ -151,6 +125,7 @@
                class="console.DoCom"
                id="TenonEditor.action1"
                label="%action.label"
+               tooltip = "%command.label"
                style="push"
                toolbarPath="Normal/additon">
          </action>
@@ -158,8 +133,20 @@
    </extension>
 
 
-
-
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+         allPopups="false"
+         locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="doCompile"
+               label="%command.label"
+               icon = "icons/compile.png"
+               style="push">
+         </command>
+      </menuContribution>	
+   </extension>
+   
     <!-- Tenon Debugger Part-->
     <!--Tenon Debugger 初始视图-->
     <extension point="org.eclipse.ui.views">
@@ -225,5 +212,98 @@
     </extension>
     <!-- End of Tenon Debugger Part-->
 
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="doDebug"
+               label="%rc.start_tvm_mode"
+               icon = "icons/start.png"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="runT"
+               label="%rc.run"
+               icon = "icons/run.png"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="nextT"
+               label="%rc.next"
+               icon = "icons/next.png"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="breakpointT"
+               label="%rc.breakpoint"
+               icon = "icons/breakpoint.png"
+               style="push">
+         </command>
+      </menuContribution>
+            <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="continueT"
+               label="%rc.continue"
+               icon = "icons/continue.png"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="backtraceT"
+               label="%rc.backtrace"
+               icon = "icons/backtrace.png"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="showT"
+               label="%rc.show"
+               icon = "icons/show.png"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="disableT"
+               label="%rc.disable"
+               icon = "icons/disableselected.png"
+               style="push">
+         </command>
+      </menuContribution> 
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="quitTvm"
+               label="%rc.quit_tvm_mode"
+               icon = "icons/quit.png"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
 </plugin>
 

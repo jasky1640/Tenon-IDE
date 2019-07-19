@@ -19,6 +19,15 @@ public class DebugViewMessages extends NLS {
 	public static String DebugBreakpointView_Next;          
 	public static String DebugBreakpointView_Quit_Tvm_Mode; 
 	public static String DebugBreakpointView_Run;
+	public static String DebugBreakpointView_Backtrace;
+	public static String DebugBreakpointView_Continue;
+	public static String DebugBreakpointView_Step;
+	public static String DebugBreakpointView_Stepi;
+	public static String DebugBreakpointView_EnableSelected;
+	public static String DebugBreakpointView_EnableAll;
+	public static String DebugBreakpointView_DisableSelected;
+	public static String DebugBreakpointView_DisableAll;
+	public static String DebugBreakpointView_Start_Tvm_Mode;
 	
 	//Strings in DebugVariableView class
 	public static String DebugVariableView_Variable;

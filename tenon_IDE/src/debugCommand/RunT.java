@@ -16,7 +16,8 @@ import org.eclipse.core.commands.ExecutionException;
  * 
  */
 public class RunT extends AbstractHandler {
-
+	
+	//Will be removed, keep for test purpose
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		Thread runThread = new Thread(new PutCommand(ConstantString.RUN));
 		Thread takeCommandThread = new Thread(new TakeCommand());
@@ -25,5 +26,13 @@ public class RunT extends AbstractHandler {
 		takeCommandThread.start();
 
 		return null;
+	}
+	
+	public static void run() {
+		Thread runThread = new Thread(new PutCommand(ConstantString.RUN));
+		Thread takeCommandThread = new Thread(new TakeCommand());
+
+		runThread.start();
+		takeCommandThread.start();
 	}
 }

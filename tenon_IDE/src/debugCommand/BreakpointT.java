@@ -18,7 +18,7 @@ import org.eclipse.core.commands.ExecutionException;
 public class BreakpointT extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
-		Thread breakpoinThread = new Thread(new PutCommand(ConstantString.BREAKPOINT));
+		Thread breakpoinThread = new Thread(new PutCommand(ConstantString.BREAKPOINT+" main"));
 		Thread takeCommandThread = new Thread(new TakeCommand());
 
 		breakpoinThread.start();

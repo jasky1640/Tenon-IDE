@@ -1,12 +1,13 @@
 package debugview.utils;
 
-import org.eclipse.jface.resource.ImageDescriptor; 
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.plugin.AbstractUIPlugin; 
 import org.osgi.framework.BundleContext; 
  
 /**
  * The activator class controls the plug-in life cycle 
  */ 
-public class Activator extends AbstractFileLocatorActivator { 
+public class Activator extends AbstractUIPlugin { 
  
     // The plug-in ID 
     public static final String PLUGIN_ID = "TenonEditor";

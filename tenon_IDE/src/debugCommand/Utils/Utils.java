@@ -47,10 +47,12 @@ public class Utils {
 
 		MessageConsoleStream printer = ConsoleFactory1.getConsole().newMessageStream();
 		printer.setActivateOnWrite(true);
+		printer.println(command);
 
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(tvm.getOutputStream()));
 
 		try {
+			bw.flush();
 			bw.write(command + " \n");
 			bw.flush();
 			InputStream is = tvm.getInputStream();
@@ -73,4 +75,5 @@ public class Utils {
 			e.printStackTrace();
 		}
 	}
+
 }
