@@ -10,6 +10,10 @@ public class ConstantString {
 	public static final String BREAKPOINT = "breakpoint";
 
 	public static final String NEXT = "next";
+	
+	public static final String STEP = "step";
+	
+	public static final String STEPI = "stepi";
 
 	public static final String HELP = "help";
 
@@ -24,6 +28,8 @@ public class ConstantString {
 	public static final String DELETE = "delete";
 
 	public static final String DISABLE = "disable";
+	
+	public static final String ENABLE = "enable";
 
 	public static final String SHOW = "show";
 

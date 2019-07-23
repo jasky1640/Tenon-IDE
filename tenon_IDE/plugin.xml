@@ -57,6 +57,18 @@
             id="showT"
             name="showT">
       </command>
+      <command
+            id="enableT"
+            name="enableT">
+      </command>
+      <command
+            id="stepT"
+            name="stepT">
+      </command>
+      <command
+            id="stepiT"
+            name="stepiT">
+      </command>
    </extension>
    
    <extension
@@ -101,6 +113,18 @@
             class="debugCommand.ShowT"
             commandId="showT">
       </handler>
+      <handler
+            class="debugCommand.StepT"
+            commandId="stepT">
+      </handler>
+      <handler
+            class="debugCommand.StepiT"
+            commandId="stepiT">
+      </handler>
+      <handler
+            class="debugCommand.EnableT"
+            commandId="enableT">
+      </handler>
    </extension>
    
    <extension
@@ -144,7 +168,7 @@
                icon = "icons/compile.png"
                style="push">
          </command>
-      </menuContribution>	
+      </menuContribution>   
    </extension>
    
     <!-- Tenon Debugger Part-->
@@ -304,6 +328,32 @@
                style="push">
          </command>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="stepT"
+               label="stepT"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="stepiT"
+               label="stepiT"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="enableT"
+               label="enableT"
+               style="push">
+         </command>
+      </menuContribution>
    </extension>
 </plugin>
-

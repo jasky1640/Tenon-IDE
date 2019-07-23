@@ -27,4 +27,11 @@ public class ShowT extends AbstractHandler {
 		return null;
 	}
 
+	public static void showUI() {
+		Thread showThread = new Thread(new PutCommand(ConstantString.SHOW + " breakpoint"));
+		Thread takeCommandThread = new Thread(new TakeCommand());
+
+		showThread.start();
+		takeCommandThread.start();
+	}
 }

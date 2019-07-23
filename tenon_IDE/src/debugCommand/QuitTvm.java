@@ -28,7 +28,7 @@ public class QuitTvm extends AbstractHandler {
 		return null;
 	}
 	
-	public static void quitTvm() {
+	public static void quitTvmUI() {
 		Thread quitThread = new Thread(new PutCommand(ConstantString.TVMQUIT));
 		Thread takeCommandThread = new Thread(new TakeCommand());
 

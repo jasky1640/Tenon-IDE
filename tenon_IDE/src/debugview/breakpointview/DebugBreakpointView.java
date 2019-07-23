@@ -1,18 +1,17 @@
 package debugview.breakpointview;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.part.ViewPart;
 
 import debugCommand.*;
+import debugCommand.Utils.Utils;
 import debugview.utils.*;
 
 public class DebugBreakpointView extends ViewPart{
@@ -30,7 +29,15 @@ public class DebugBreakpointView extends ViewPart{
         }
 
         public void run() {
-            OpenTvmMode.getTvmThread().run();
+        	Thread openTvmModeThread = new Thread();
+
+        	String filePath = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput().getToolTipText();
+
+    		Utils utils = new Utils();
+    		utils.createTask0asm(filePath);
+
+    		openTvmModeThread = new Thread(OpenTvmMode.getTvmThread());
+    		openTvmModeThread.start();
         }
 	    
         @Override
@@ -46,7 +53,7 @@ public class DebugBreakpointView extends ViewPart{
         }
 	    
         public void run() {
-            BacktraceT.backtrace();
+            BacktraceT.backtraceUI();
         }
 	    
          @Override
@@ -62,7 +69,7 @@ public class DebugBreakpointView extends ViewPart{
         }
 	    
         public void run() {
-            ContinueT.continueT();
+            ContinueT.continueUI();
         }
 	    
         @Override
@@ -78,11 +85,7 @@ public class DebugBreakpointView extends ViewPart{
         }
 	    
         public void run() {
-            //For test purpose
-            Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-            String dialogBoxTitle = "Step";
-            String message = "You clicked step button!";
-            MessageDialog.openInformation(shell, dialogBoxTitle, message);
+            StepT.stepUI();
         }
         
         @Override
@@ -98,11 +101,7 @@ public class DebugBreakpointView extends ViewPart{
         }
 
         public void run() {
-            //For test purpose
-            Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-            String dialogBoxTitle = "Stepi";
-            String message = "You clicked stepi button!";
-            MessageDialog.openInformation(shell, dialogBoxTitle, message);
+            StepiT.stepiUI();
         }
 	    
         @Override
@@ -118,7 +117,7 @@ public class DebugBreakpointView extends ViewPart{
         }
 	    
         public void run() {
-            NextT.next();
+            NextT.nextUI();
         }
 	    
         @Override
@@ -134,7 +133,7 @@ public class DebugBreakpointView extends ViewPart{
         }
 	    
         public void run() {
-            RunT.run();
+            RunT.runUI();
         }
 	    
         @Override
@@ -234,7 +233,7 @@ public class DebugBreakpointView extends ViewPart{
         }
 	    
         public void run() {
-            QuitTvm.quitTvm();
+            QuitTvm.quitTvmUI();
         }
 	    
         @Override

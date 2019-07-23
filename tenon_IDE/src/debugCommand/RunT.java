@@ -28,7 +28,7 @@ public class RunT extends AbstractHandler {
 		return null;
 	}
 	
-	public static void run() {
+	public static void runUI() {
 		Thread runThread = new Thread(new PutCommand(ConstantString.RUN));
 		Thread takeCommandThread = new Thread(new TakeCommand());
 

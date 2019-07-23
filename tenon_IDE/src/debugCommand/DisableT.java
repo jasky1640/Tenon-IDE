@@ -27,4 +27,12 @@ public class DisableT extends AbstractHandler {
 		return null;
 	}
 
+	public static void disableUI() {
+		Thread disableThread = new Thread(new PutCommand(ConstantString.DISABLE));
+		Thread takeCommandThread = new Thread(new TakeCommand());
+
+		disableThread.start();
+		takeCommandThread.start();
+	}
+
 }

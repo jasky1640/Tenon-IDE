@@ -37,17 +37,20 @@ public class DebugViewMessages extends NLS {
 	
 	// initialize resource bundle
 	static {
-		switch(Locale.getDefault().getISO3Language()){
-			
-			case DebugViewMessages.ISO3_SIMPLIFIED_CHINESE:
-				BUNDLE_NAME = DebugViewMessages.BUNDLE_NAME_CN;
-				
-			case DebugViewMessages.ISO3_TRADITIONAL_CHINESE:
-				BUNDLE_NAME = DebugViewMessages.BUNDLE_NAME_CN;
-			
-			default:
-				BUNDLE_NAME = DebugViewMessages.BUNDLE_NAME_EN;
+		String ISO3Language = Locale.getDefault().getISO3Language();
+		
+		if (ISO3Language.equals(DebugViewMessages.ISO3_SIMPLIFIED_CHINESE)) {
+			BUNDLE_NAME = DebugViewMessages.BUNDLE_NAME_CN;
 		}
+		
+		else if (ISO3Language.equals(DebugViewMessages.ISO3_TRADITIONAL_CHINESE)) {
+			BUNDLE_NAME = DebugViewMessages.BUNDLE_NAME_CN;
+		}
+
+		else {
+			BUNDLE_NAME = DebugViewMessages.BUNDLE_NAME_EN;
+		}
+			
 		NLS.initializeMessages(BUNDLE_NAME, DebugViewMessages.class);
 	}
 

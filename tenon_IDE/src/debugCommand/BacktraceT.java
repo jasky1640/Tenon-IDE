@@ -17,7 +17,7 @@ import debugCommand.constant.ConstantString;
  */
 public class BacktraceT extends AbstractHandler {
 
-	//Will be removed, keep for test purpose
+	// Will be removed, keep for test purpose
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		Thread backtraceThread = new Thread(new PutCommand(ConstantString.BACKTRACE));
@@ -28,11 +28,12 @@ public class BacktraceT extends AbstractHandler {
 		return null;
 	}
 
-	public static void backtrace() {
+	public static void backtraceUI() {
 		Thread backtraceThread = new Thread(new PutCommand(ConstantString.BACKTRACE));
 		Thread takeCommandThread = new Thread(new TakeCommand());
 
 		backtraceThread.start();
 		takeCommandThread.start();
 	}
+
 }
