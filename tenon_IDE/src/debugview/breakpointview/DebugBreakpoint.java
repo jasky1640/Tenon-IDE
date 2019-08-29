@@ -1,16 +1,38 @@
 package debugview.breakpointview;
 
+import debugCommand.DoDebug;
+
 /**
  * This class represents a breakpoint for debugger
  */
 public class DebugBreakpoint {
 
-	private String info;
 	private boolean enabled;
+	private int lineNumber;
+	private int counts;
 
-	public DebugBreakpoint(String info) {
+	public int getCounts() {
+		return counts;
+	}
+
+	public void setCounts(int counts) {
+		this.counts = counts;
+	}
+
+	public void reduceCount() {
+		this.counts = this.counts - 1;
+	}
+
+	public int getLineNumber() {
+		return lineNumber;
+	}
+
+	public void setLineNumber(int lineNumber) {
+		this.lineNumber = lineNumber;
+	}
+
+	public DebugBreakpoint() {
 		super();
-		this.info = info;
 		this.enabled = true;
 	}
 
@@ -22,11 +44,7 @@ public class DebugBreakpoint {
 		this.enabled = enabled;
 	}
 
-	public String getInfo() {
-		return info;
-	}
-
-	public void setInfo(String info) {
-		this.info = info;
+	public String getBreakpointInfo() {
+		return "Breakpoint " + this.getCounts() + ",  " + DoDebug.fileName + ": " + this.lineNumber;
 	}
 }

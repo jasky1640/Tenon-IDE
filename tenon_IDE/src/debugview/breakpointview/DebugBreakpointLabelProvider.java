@@ -22,7 +22,7 @@ public class DebugBreakpointLabelProvider implements ITableLabelProvider {
 	public String getColumnText(Object element, int columnIndex) {
 		DebugBreakpoint debugBreakpoint = (DebugBreakpoint) element;
 		if (columnIndex == COLUMN_BREAKPOINT) {
-			return debugBreakpoint.getInfo();
+			return debugBreakpoint.getBreakpointInfo();
 		}
 		return null;
 	}

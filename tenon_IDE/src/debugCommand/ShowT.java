@@ -4,9 +4,8 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
-import debugCommand.Utils.PutCommand;
-import debugCommand.Utils.TakeCommand;
-import debugCommand.constant.ConstantString;
+import debugCommand.Utils.CommandUtils;
+import debugCommand.constant.TenonCommandString;
 
 /**
  * @ClassName: ShowT
@@ -19,19 +18,17 @@ public class ShowT extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		Thread showThread = new Thread(new PutCommand(ConstantString.SHOW + " breakpoint"));
-		Thread takeCommandThread = new Thread(new TakeCommand());
-
-		showThread.start();
-		takeCommandThread.start();
+		CommandUtils.executeCommand(TenonCommandString.SHOW + " " + "breakpoint");
 		return null;
 	}
 
+	/**
+	 * @Title: showUI
+	 * @Description: 供断点视图图标使用
+	 * @author weijian
+	 * @date 2019-08-21 12:58:28
+	 */
 	public static void showUI() {
-		Thread showThread = new Thread(new PutCommand(ConstantString.SHOW + " breakpoint"));
-		Thread takeCommandThread = new Thread(new TakeCommand());
-
-		showThread.start();
-		takeCommandThread.start();
+		CommandUtils.executeCommand(TenonCommandString.SHOW + " " + "breakpoint");
 	}
 }

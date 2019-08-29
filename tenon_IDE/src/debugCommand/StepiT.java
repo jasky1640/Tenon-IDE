@@ -4,10 +4,8 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
-import debugCommand.Utils.PutCommand;
-import debugCommand.Utils.TakeCommand;
-import debugCommand.constant.ConstantString;
-
+import debugCommand.Utils.CommandUtils;
+import debugCommand.constant.TenonCommandString;
 
 /**
  * @ClassName: StepiT
@@ -20,22 +18,18 @@ public class StepiT extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-
-		Thread stepiThread = new Thread(new PutCommand(ConstantString.STEPI));
-		Thread takeCommandThread = new Thread(new TakeCommand());
-
-		stepiThread.start();
-		takeCommandThread.start();
-
+		CommandUtils.executeCommand(TenonCommandString.STEPI);
 		return null;
 	}
 
+	/**
+	 * @Title: stepiUI
+	 * @Description: 供断点视图图标使用
+	 * @author weijian
+	 * @date 2019-08-21 12:56:48
+	 */
 	public static void stepiUI() {
-		Thread stepiThread = new Thread(new PutCommand(ConstantString.STEPI));
-		Thread takeCommandThread = new Thread(new TakeCommand());
-
-		stepiThread.start();
-		takeCommandThread.start();
+		CommandUtils.executeCommand(TenonCommandString.STEPI);
 	}
 
 }

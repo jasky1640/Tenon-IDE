@@ -22,22 +22,20 @@ public class TakeCommand implements Runnable {
 
 	@Override
 	public void run() {
-		while (true) {
 
-			try {
+		try {
 
-				String commString = (String) ShareQueue.sharedQueue.take();
-				ShareQueue.sharedQueue.clear();
+			String commString = (String) ShareQueue.sharedQueue.take();
+			ShareQueue.sharedQueue.clear();
 
-				Utils utils2 = new Utils();
-				utils2.callBackCommand(callbackProcess, commString);
+			CommandUtils.callbackCommand(callbackProcess, commString);
 
-			} catch (InterruptedException ex) {
+		} catch (InterruptedException ex) {
 
-				Logger.getLogger(OpenTvmMode.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(OpenTvmMode.class.getName()).log(Level.SEVERE, null, ex);
 
-			}
 		}
+
 	}
 
 }

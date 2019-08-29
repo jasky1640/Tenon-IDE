@@ -87,6 +87,7 @@ module logging
     else
       twrite("The heap is not empty.");
     end
+    log_fini();
   end
 
 

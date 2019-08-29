@@ -58,6 +58,7 @@ module log_manager_test
     log_marker("TASK1", "WARNING", "Test the warning level log message.");
     log_marker("TASK1", "ERROR", "Test the error level log message.");
     log_marker("TASK1", "CRITICAL", "Test the critical level log message.");
+    log_fini();
   end
 end
 

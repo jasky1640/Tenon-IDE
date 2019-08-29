@@ -4,9 +4,8 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
-import debugCommand.Utils.PutCommand;
-import debugCommand.Utils.TakeCommand;
-import debugCommand.constant.ConstantString;
+import debugCommand.Utils.CommandUtils;
+import debugCommand.constant.TenonCommandString;
 
 /**
  * @ClassName: BacktraceT
@@ -17,23 +16,20 @@ import debugCommand.constant.ConstantString;
  */
 public class BacktraceT extends AbstractHandler {
 
-	// Will be removed, keep for test purpose
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		Thread backtraceThread = new Thread(new PutCommand(ConstantString.BACKTRACE));
-		Thread takeCommandThread = new Thread(new TakeCommand());
-
-		backtraceThread.start();
-		takeCommandThread.start();
+		CommandUtils.executeCommand(TenonCommandString.BACKTRACE);
 		return null;
 	}
 
+	/**
+	 * @Title: backtraceUI
+	 * @Description: 供断点视图图标使用
+	 * @author weijian
+	 * @date 2019-08-21 11:40:42
+	 */
 	public static void backtraceUI() {
-		Thread backtraceThread = new Thread(new PutCommand(ConstantString.BACKTRACE));
-		Thread takeCommandThread = new Thread(new TakeCommand());
-
-		backtraceThread.start();
-		takeCommandThread.start();
+		CommandUtils.executeCommand(TenonCommandString.BACKTRACE);
 	}
 
 }

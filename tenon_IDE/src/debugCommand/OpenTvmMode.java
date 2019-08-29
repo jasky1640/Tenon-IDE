@@ -9,8 +9,8 @@ import java.io.OutputStreamWriter;
 
 import org.eclipse.ui.console.MessageConsoleStream;
 
-import console.ConsoleFactory1;
-import debugCommand.constant.ConstantString;
+import console.ConsoleFactory;
+import debugCommand.constant.TenonCommandString;
 
 /**
  * @ClassName: OpenTvmMode
@@ -37,11 +37,12 @@ public class OpenTvmMode implements Runnable {
 	@Override
 	public void run() {
 
-		MessageConsoleStream printer = ConsoleFactory1.getConsole().newMessageStream();
+		MessageConsoleStream printer = ConsoleFactory.getConsole().newMessageStream();
 		printer.setActivateOnWrite(true);
 
-		File dir = new File(ConstantString.FILE);
-		String command = ConstantString.TVMSTART;
+		File dir = new File(TenonCommandString.FILE);
+		String command = TenonCommandString.TVMSTART;
+
 		ProcessBuilder pb = new ProcessBuilder();
 		pb.redirectErrorStream(true);
 

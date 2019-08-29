@@ -2,11 +2,6 @@ module _base_ (sysmodule, noview)
 
   !{ built-in types
 
-  ! The const errnum value must be same with the enumerate defined
-  ! in 'tvm/c_ext/base.h'.
-  const errnum ERR_MODULE = -101;
-  const errnum ERR_IOERROR = -102;
-
   const num USINT = 1;   ! USINT
   const num UINT = 2;   ! UINT
   const num UDINT = 4;   ! UDINT
@@ -428,7 +423,7 @@ module _base_ (sysmodule, noview)
   opaque function num abs(num data) end
 
   !reduce the acceleration
-  opaque function void accset(num acc, num ramp, num finepointramp) end
+  opaque function void accset(num acc, num ramp, num finepointramp = 100) end
 
   !ACos - Calculates the arc cosine value
   opaque function num acos(num data) end
@@ -476,15 +471,33 @@ module _base_ (sysmodule, noview)
   !  000-377 for Okt, 00000000-11111111 for Bin, One ASCII char for Char)
   opaque function string base_bytetostr(num bytedata, num oparg) end
 
-  opaque function num base_fssize(string path, num is_total, num retype) end
+  function string bytetostr(num bytedata, bool Dec = false, bool Hex = false, bool Okt = false,
+                            bool Bin = false, bool Char = false)
+    var string retdata;
+    var num oparg = 10;
+    if (Hex == true) then
+      oparg = 16;
+    elseif (Okt == true) then
+      oparg = 8;
+    elseif(Bin == true) then
+      oparg = 2;
+    elseif(Char == true) then
+      oparg = 0;
+    end
 
-  function num fssize(string path, num total = 0, num free = 0,
-                      num kbyte = 0, num mbyte = 0)
+    retdata = base_bytetostr(bytedata, oparg);
+    return retdata;
+  end
+
+  opaque function num base_fssize(string path, bool is_total, num retype) end
+
+  function num fssize(string path, bool total = false, bool free = false,
+                      bool kbyte = false, bool mbyte = false)
     var num ret;
     var num retype = 1;
-    if kbyte == 1 then
+    if kbyte == true then
       retype = 1024;
-    elseif mbyte == 1 then
+    elseif mbyte == true then
       retype = 1024 *1024;
     end
 
@@ -517,20 +530,6 @@ module _base_ (sysmodule, noview)
     return ret;
   end
 
-  !NumToStr - Converts numeric value to string
-  opaque function string base_numtostr(num val, num dec, num oparg) end
-
-  function string numtostr(num val, num dec, num Exp = 0)
-    var string retdata;
-    var num oparg = 0;
-    if(present(Exp)) then
-      oparg = 1;
-    end
-
-    retdata = base_numtostr(val, dec, oparg);
-    return retdata;
-  end
-
   opaque function void base_orientzyx(alias orient rot, num z, num y, num x) end
 
   function orient orientzyx(num z, num y, num x)
@@ -539,35 +538,12 @@ module _base_ (sysmodule, noview)
     return ret;
   end
 
-  opaque function void base_printdataval(alias datapos block, string varname) end
-  function void printdataval(alias datapos block, string varname = void)
-    var string pattern = "void";
-    if present(varname) then
-      pattern = varname;
-    end
-
-    base_printdataval(block, pattern);
-  end
-
-  !Round - Round a numeric value
-  opaque function num base_round(num val, num oparg) end
-
-  function num round(num val, num Dec = 0)
-    var num retdata;
-    var num oparg = 0;
-    if(present(Dec)) then
-      oparg = Dec;
-    end
-
-    retdata = base_round(val, oparg);
-    return retdata;
-  end
-
   ! Save - Save a program module
   opaque function void base_save(string module_name, string file_path) end
 
-  function void save(string module_name, string file_path = void)
-    if present(file_path) then
+  function void save(string module_name, string file_path = "")
+    var num len = strlen(file_path);
+    if len > 0 then
       base_save(module_name, file_path);
     else
       base_save(module_name, module_name + ".t");
@@ -578,31 +554,22 @@ module _base_ (sysmodule, noview)
   !  bytedata format into a byte data.
   opaque function num base_strtobyte(string constr, num oparg) end
 
-  function num strtobyte(string constr, num Hex = 0, num Okt = 0,
-                            num Bin = 0, num Char = 0)
+  function num strtobyte(string constr, bool Hex = false, bool Okt = false,
+                            bool Bin = false, bool Char = false)
     var num retdata;
     var num oparg = 10;
-    if(Hex == 1) then
+    if(Hex == true) then
       oparg = 16;
-    elseif(Okt == 1) then
+    elseif(Okt == true) then
       oparg = 8;
-    elseif(Bin == 1) then
+    elseif(Bin == true) then
       oparg = 2;
-    elseif(Char == 1) then
+    elseif(Char == true) then
       oparg = 0;
     end
 
     retdata = base_strtobyte(constr, oparg);
     return retdata;
-  end
-
-  !Trunc - Truncates a numeric value
-  opaque function num base_trunc(num val, num dec) end
-
-  function num trunc(num val, num dec = 0)
-    var num ret;
-    ret = base_trunc(val, dec);
-    return ret;
   end
 
   !TryInt - Test if data object is a valid interger
@@ -659,29 +626,15 @@ module _base_ (sysmodule, noview)
   !book a TENON system error number
   opaque function void bookerrno(errnum errorname) end
 
-  function string bytetostr(num bytedata, num Dec = 0, num Hex = 0, num Okt = 0,
-                            num Bin = 0, num Char = 0)
-    var string retdata;
-    var num oparg = 10;
-    if(present(Hex)) then
-      oparg = 16;
-    elseif(present(Okt)) then
-      oparg = 8;
-    elseif(present(Bin)) then
-      oparg = 2;
-    elseif(present(Char)) then
-      oparg = 0;
-    end
-
-    retdata = base_bytetostr(bytedata, oparg);
-    return retdata;
-  end
-
   !call a procedure by a variable
   opaque function void callbyvar(string name, num number) end
 
   !removes the collection data for the camera
   opaque function void camflush(cameradev camera) end
+
+  !CamGetExposure - Get camera specific data
+  opaque function void camgetexposure(cameradev camera, num exposuretime,
+                                      num brightness, num contrast) end
 
   !get different named camera parameters
   opaque function void camgetparameter(cameradev camera, string parname,
@@ -691,23 +644,24 @@ module _base_ (sysmodule, noview)
   !gets a camera target from the collection
   opaque function void camgetresult(cameradev camera, cameratarget camtarget,
                                     num sceneid = 0, num maxtime = 120) end
-   
+
   !Get name of the loaded camera task
   opaque function string camgetloadedjob(cameradev camera) end
-  
+
   !Get the name of the used camera
   opaque function string camgetname(cameradev camera) end
-                                   
+
   !load a camera task into a camera
   opaque function void camloadjob(cameradev camera, string name,
-                                  num keeptargets = 0, num maxtime = 120) end
-                                                                
+                                  bool keeptargets = false, num maxtime = 120) end
+
  !Get number of available results
   opaque function void camnumberofresults(cameradev camera, num sceneid) end
                                   
   !order the camera to acquire an image
   opaque function void camreqimage(cameradev camera, num sceneid = 0,
-                              num keeptargets = 0, num awaitcomplete = 0) end
+                                   bool keeptargets = false,
+                                   bool awaitcomplete = false) end
 
   !set camera specific data
   opaque function void camsetexposure(cameradev camera, num exposuretime = 0,
@@ -715,7 +669,7 @@ module _base_ (sysmodule, noview)
 
   !set different named camera paramters
   opaque function void camsetparameter(cameradev camera, string parname,
-                                       num numval = 0, bool boolval = void,
+                                       num numval = 0, bool boolval = false,
                                        string strval = void) end
 
   !orders the camera to go to program mode
@@ -726,7 +680,7 @@ module _base_ (sysmodule, noview)
 
   !CamStartLoadJob - Start load of a camera task into a camera
   opaque function void camstartloadjob(cameradev camera, string name,
-                                       num keeptargets = 0) end
+                                       bool keeptargets = false) end
 
   !CamWaitLoadJob – Wait until a camera task is loaded
   opaque function void camwaitloadjob(cameradev camera) end
@@ -738,9 +692,9 @@ module _base_ (sysmodule, noview)
   opaque function void checkproref() end
 
   !CirPathMode - Tool reorientation during circle path
-  opaque function void cirpathmode(num pathframe = 0, num objectframe = 0,
-                                   num cirpointori = 0, num wrist45 = 0,
-                                   num wrist46 = 0, num wrist56 = 0) end
+  opaque function void cirpathmode(bool pathframe = false, bool objectframe = false,
+                                   bool cirpointori = false, bool wrist45 = false,
+                                   bool wrist46 = false, bool wrist56 = false) end
 
   !Clear - Clears the value
   function void clear(alias num reg1)
@@ -754,13 +708,7 @@ module _base_ (sysmodule, noview)
   opaque function void clearpath() end
 
   !ClearRawBytes - Clear the contents of rawbytes data
-  function void clearrawbytes(rawbytes rawdata, num FromIndex = 1)
-    var num startindex = 1;
-    if (present(FromIndex)) then
-      startindex = FromIndex;
-    end
-    base_clearrawbytes(rawdata,startindex);
-  end
+  opaque function void clearrawbytes(rawbytes rawdata, num FromIndex = 1) end
 
   !ClkReset - Resets a clock used for timing
   opaque function void clkreset(clock Clock) end
@@ -823,14 +771,29 @@ module _base_ (sysmodule, noview)
     reg1 = reg1 - 1;
   end
 
+  !DeactEventBuffer - Deactivation of event buffer
+  opaque function void deacteventbuffer() end
+
+  !DeactUnit - Deactivates a mechanical unit
+  opaque function void deactunit(mecunit mecu) end
+
   !DecToHex - Convert from decimal to hexadecimal
   opaque function string dectohex(string str) end
+
+  !Dim - Gets the specified dimension of an array
+  opaque function num dim(anytype array{}, num dim) end
 
   !Distance - Distance between two points
   opaque function num distance(pos point1, pos point2) end
 
   !DotProd - Dot product of two pos vectors
   opaque function num dotprod(pos vector1, pos vector2) end
+
+  !DropSensor - Drop object on sensor
+  opaque function void dropsensor(mecunit mecu) end
+
+  !DropWObj - Drop work object on conveyor
+  opaque function void dropwobj(wobjdata data) end
 
   !Deactivates an offset for additional axes
   opaque function void eoffsoff() end
@@ -851,16 +814,46 @@ module _base_ (sysmodule, noview)
   !FreeRawBytes - Free rawbytes data
   opaque function void freerawbytes(rawbytes rawdata) end
 
+  !FricIdInit - Initiate friction identification
+  opaque function void fricidinit() end
+
   opaque function string getLogDefaultHandler() end
 
   opaque function string getLogDefaultLevel() end
 
   opaque function string getLogDefaultMarker() end
 
+  !GetMecUnitName - Get the name of the mechanical unit
+  opaque function string getmecunitname(mecunit mec) end
+
+  !GetMotorTorque - Reads the current motor torque
+  opaque function num getmotortorque(mecunit mec, num axisno) end
+
+  !GetSignalOrigin - Get information about the origin of an I/O signal
+  opaque function signalorigin getsignalorigin(signaldo signal, string name) end
+
   opaque function string getsysinfo (string str) end
+
+  !GripLoad - Define the playload for a robot
+  opaque function void gripload(loaddata data) end
 
   !HexToDec - Convert from hexadecimal to decimal
   opaque function string hextodec(string str) end
+
+  !IndCMove - Independent continuous movement
+  opaque function void indcmove(mecunit mec, num axis, num speed, num ramp = 0)
+  end
+
+  !IndDMove - Independent delta position movement
+  opaque function void inddmove(mecunit mec, num axis, num delta, num speed,
+                                num ramp = 0) end
+
+  !IndInpos - Independent axis in position status
+  opaque function void indinpos(mecunit mecunit, num axis) end
+
+  !IndSpeed - Independent speed status
+  opaque function void indspeed(mecunit mecunit, num axis, 
+                                bool inspeed, bool zerospeed) end
 
   !InitRawBytes - Init rawbytes data
   opaque function void initrawbytes(alias rawbytes rawdata) end
@@ -868,10 +861,43 @@ module _base_ (sysmodule, noview)
   ! Break program execution.
   opaque function void insbreak() end
 
+  !IOBusStart - Start of I/O network
+  opaque function void iobusstart(string busname) end
+
+  !IOBusState - Get current state of I/O network
+  opaque function void iobusstate(string busname, busstate state, bool phys,
+                                  bool logic) end
+
+  !IODisable - Deactivate an I/O device
+  opaque function void iodisable(string busname, num maxtime) end
+
+  !IOEnable - Activate an I/O device
+  opaque function void ioenable(string busname, num maxtime) end
+
+  !IOUnitState - Get current state of I/O device
+  opaque function void iounitstate(string unitname, bool phys, bool logic) end
+
   opaque function bool isfile(string path, string file_type) end
+
+  !ISignalAI - Interrupts from analog input signal
+  opaque function void isignalai(num interrupt_s, signalai signal,
+                                 num cond, num highval, num lowval, num deltaval,
+                                 num data_s, num interrupt_num) end
+
+  !IsLeadThrough - Check lead-through status
+  opaque function bool isleadthrough(mecunit mechunit, bool active, bool set) end
+
+  !IsMechUnitActive - Is mechanical unit active
+  opaque function bool ismechunitactive(mecunit mechunit) end
 
   !IsPers - Is persistent
   opaque function bool ispers(alias anytype DatObj) end
+
+  !IsStopMoveAct - Is stop move flags active
+  opaque function bool isstopmoveact(bool frommovetask, bool fromnonmovetask) end
+
+  !IsSyncMoveOn - Test if in synchronized movement model
+  opaque function bool issyncmoveon() end
 
   !IsVar - Is variable
   opaque function bool isvar(alias anytype DatObj) end
@@ -879,6 +905,8 @@ module _base_ (sysmodule, noview)
   ! Load - Load a program module during execution
   opaque function void load(string file_path) end
 
+  opaque function void log_init() end
+  opaque function void log_fini() end
   opaque function void log_marker(string marker, string level, string message) end
 
   function void log(string level, string message)
@@ -915,7 +943,32 @@ module _base_ (sysmodule, noview)
   !MakeDir - Create a new directory
   opaque function void makedir(string path) end
 
+  !MaxRobSpeed - Maximum robot speed
+  opaque function num maxrobspeed() end
+
+  !MechUnitLoad - Defines a payload for a mechanical unit
+  opaque function void mechunitload(mecunit mechunit, num axisno,
+                                    loaddata loadn) end
+
   opaque function bool modexist(string modname) end
+
+  !MToolRotCalib - Calibration of rotation for moving tool
+  opaque function void mtoolrotcalib(jointtarget reftip, jointtarget zpos,
+                                     jointtarget xpos, tooldata tool) end
+
+  !MToolTcpCalib - Calibration of Tcp for moving tool
+  opaque function void mtooltcpcalib(robtarget pos1, robtarget pos2,
+                                     robtarget pos3, robtarget pos4,
+                                     tooldata tool, num maxerr, num meanerr) end
+
+  !NonMotionMode - Read the Non-Motion execution mode
+  opaque function bool nonmotionmode(num maint) end
+
+  !NumToStr - Converts numeric value to string
+  opaque function string numtostr(num val, num dec, num exp = 0) end
+
+  !OpMode - Read the operating mode
+  opaque function num opmode() end
 
   opaque function void open(string filename, alias iodev iodevice, string mode)
   end
@@ -931,35 +984,75 @@ module _base_ (sysmodule, noview)
                                           num StartIndex) end
 
   opaque function void packrawbytes_float(num Value, rawbytes rawdata,
-                                          num StartIndex, num Network) end
+                                          num StartIndex, bool Network) end
 
   !PackRawBytes - Pack data into rawbytes data
   opaque function void packrawbytes_hex(num Value, rawbytes rawdata,
                                         num StartIndex) end
 
   opaque function void packrawbytes_int(num Value, rawbytes rawdata,
-                                        num StartIndex, num Network,
+                                        num StartIndex, bool Network,
                                         num IntTypes) end
 
   function void packrawbytes(rawbytes rawdata,  num Value=0, string sValue="",
-                             num Network = 0, num StartIndex = 1,
-                             num Hex1 = 0,  num Intx = 0, num Float4 = 0,
+                             bool Network = false, num StartIndex = 1,
+                             bool Hex1 = false,  num Intx = 0, bool Float4 = false,
                              num ASCII = 0)
     var num inttypes = 0;
-    var num netflag = 0;
-    if(present(Hex1))then
+    var bool netflag = false;
+    if(Hex1 == true)then
       packrawbytes_hex(Value,rawdata,StartIndex);
-    elseif (present(Intx)) then
+    elseif (Intx == 1) then
       inttypes = Intx;
       netflag = Network;
       packrawbytes_int(Value, rawdata, StartIndex, netflag, inttypes);
-    elseif (present(Float4)) then
+    elseif (Float4 == true) then
       netflag = Network;
       packrawbytes_float(Value, rawdata, StartIndex, netflag);
-    elseif (present(ASCII)) then
+    elseif (ASCII == 1) then
       packrawbytes_ascii(sValue,rawdata,StartIndex);
     end
   end
+
+  !PathAccLim - Reduce TCP acceleration along the path
+  opaque function void pathacclim(bool acclim, num accmax,
+                                  bool decellim, num decelmax) end
+
+  !PathLevel - Get current path level
+  opaque function num pathlevel() end
+
+  !PathRecMoveBwd - Move path recorder backwards
+  opaque function void pathrecmovebwd(pathrecid pathrecid,
+                                      pos tooloffs, speeddata speed) end
+
+  !PathRecMoveFwd - Move path recorder forward
+  opaque function void pathrecmovefwd(pathrecid pathrecid,
+                                      pos tooloffs, speeddata speed) end
+
+  !PathRecStart - Start the path recorder
+  opaque function void pathrecstart(pathrecid pathrecid) end
+
+  !PathRecStop - Stop the path recorder
+  opaque function void pathrecstop(bool clear) end
+
+  !PathRecValidBwd - Is there a valid backward path recorded
+  opaque function bool pathrecvalidbwd(pathrecid pathrecid) end
+  
+  !PathRecValidFwd - Is there a valid forward path recorded 
+  opaque function bool pathrecvalidfwd(pathrecid pathrecid) end
+
+  !PathResol - Override path resolution
+  opaque function void pathresol(num pathsampletime) end
+
+  !PDispOff - Deactivates program displacement
+  opaque function void pdispoff() end
+
+  !PDispOn - Activates program displacement
+  opaque function void pdispon(bool rot, robtarget exep, robtarget progpoint,
+                              tooldata tool, wobjdata wobj) end
+
+  !PDispSet - Activates program displacement using known frame
+  opaque function void pdispset(pose dispframe) end
 
   ! PoseInv - Inverts pose data, the return pos is the inverse pos.
   ! For orient, the vector is the same, the angle is 2*PI - A;
@@ -996,14 +1089,87 @@ module _base_ (sysmodule, noview)
   !Pow - Calculates the power of a value
   opaque function num pow(num data1, num data2) end
 
+
+  opaque function void printdataval(alias datapos block,
+                                    string varname = "void") end
+
+  !PrxActivAndStoreRecord - Activate and store the recorded profile data
+  opaque function void prxactivandstorerecord(mecunit mechunit, num delay,
+                                              string filename) end
+
+  !PrxActivRecord - Activate the recorded profile data
+  opaque function void prxactivrecord(mecunit mechunit, num delay) end
+
+  !PrxDeactRecord - Deactivate a record
+  opaque function void prxdeactrecord(mecunit mechunit) end
+
+  !PrxGetMaxRecordpos - Get the maximum sensor position
+  opaque function void prxgetmaxrecordpos(mecunit mechunit) end
+
+  !PrxResetPos - Reset the zero position of the sensor
+  opaque function void prxresetpos(mecunit mechunit) end
+
+  !PrxResetRecords - Reset and deactivate all records 
+  opaque function void prxresetrecords(mecunit mechunit) end
+
+  !PrxSetPosOffset - Set a reference position for the sensor
+  opaque function void prxsetposoffset(mecunit mechunit, num reference) end
+  
+  !PrxSetRecordSampleTime - Set the sample time for recording a profile 
+  opaque function void prxsetrecordsampletime(mecunit mechunit, num sampletime) end
+
+  !PrxSetSyncalarm - Set sync alarm behavior 
+  opaque function void prxsetsyncalarm(mecunit mechunit, num time, bool nopulse) end
+
+  !PrxStopRecord - Stop recording a profile
+  opaque function void prxstoprecord(mecunit mechunit) end
+
+  !PrxStoreRecord - Store the recorded profile data
+  opaque function void prxstorerecord(mecunit mechunit, num delay, string filename) end
+  
+  !PrxUseFileRecord - Use the recorded profile data
+  opaque function void prxusefilerecord(mecunit mechunit, num delay, string filename) end
+
+  !PulseDO - Generates a pulse on a digital output signal
+  opaque function void pulsedo(bool high, num plength, signaldo signal) end
+
   !RawBytesLen - Get the length of rawbytes data
   opaque function num rawbyteslen(rawbytes rawdata) end
+  
+  !ReadAnyBin - Read data from a binary serial channel or file
+  opaque function void readanybin(iodev iodevice, anytype data, num time) end
 
+  !ReadBin - Reads a byte from a file or serial channel
+  opaque function num readbin(iodev iodevice, num numb) end
+
+  !ReadBlock - read a block of data from device
+  opaque function void readblock(string device, num blockno, 
+                                 string filename, string taskname) end
+               
   !ReadDir - Read next entry in a directory
   opaque function bool readdir(dir Dev, alias string filepath) end
 
+  !ReadNum - Read a number from a file or serial channel
+  opaque function num readnum(iodev iodevice, string delim = "", num time = 0)
+  end
+
   !ReadRawBytes - Read rawbytes data
-  opaque function void readrawbytes(iodev iodevice, rawbytes rawdata, num Time) end
+  opaque function void readrawbytes(iodev iodevice, rawbytes rawdata, num time)
+  end
+
+  !ReadStr - Read a string from a file or serial channel
+  opaque function string readstr(iodev iodevice,  string delim = "",
+                                 bool removecr = false,
+                                 bool discardheads = false, num time = 0)
+  end
+
+  !ReadStrBin - Read a string from a binary serial channel or file
+  opaque function string readstrbin(iodev iodevice, num noofchars, num time = 0)
+  end
+
+  !ReadVar - Read variable from a device
+  opaque function num readvar(string device, num varno, string taskname = "")
+  end
 
   !RemoveDir - Delete a directory
   opaque function void removedir(string path) end
@@ -1014,11 +1180,43 @@ module _base_ (sysmodule, noview)
   !RenameFile - Rename a file
   opaque function void renamefile(string oldfile,string newfile) end
 
+  !Reset - Resets a digital output signal 
+  opaque function void reset(signaldo signal) end
+
+  !RestToPath - Restores the path after an interrupt
+  opaque function void restopath() end
+
+  !Round - Round a numeric value
+  opaque function num round(num val, num Dec = 0) end
+
+  !RunMode - Read the running mode
+  opaque function num runmode(num data) end
+
+  !SenDevice - Connect to a sensor device
+  opaque function void sendevice(string device) end
+
+  !Set - Set a digital output signal
+  opaque function void set(signaldo signal) end
+
+  !SetAO - Changes the value of an analog output signal
+  opaque function void setao(signalao signal, num value) end
+
+  !SetDO - Changes the value of a digital output signal
+  opaque function void setdo(signaldo signal, num value, num sdelay = 0,
+                             bool sync = false) end
+
+  !SetGO - Changes the value of a group of digital output signals
+  opaque function void setgo(signalgo signal, num value, num sdelay = 0) end
+
   opaque function void setdatasearch(string type, alias datapos block,
                                      num level = 0, string inmod = void,
                                      string varname = void) end
 
   opaque function void setdataval(anytype val, alias datapos block) end
+
+  !SetLeadThrough - Activate and deactivate lead-through
+  opaque function void setleadthrough(bool onoff, bool nostopmove,
+                                      bool noclearpath) end
 
   opaque function void setLogDefaultHandler(string handler) end
 
@@ -1026,10 +1224,10 @@ module _base_ (sysmodule, noview)
 
   opaque function void setLogDefaultMarker(string marker) end
 
-  ! Send SIGNUM to all tasks.
+  !Send SIGNUM to all tasks.
   opaque function void signal(num signum) end
 
-  ! Trigger CONNECT_VAL which is connected with trap (signal handler) when
+  !Trigger CONNECT_VAL which is connected with trap (signal handler) when
   !   received SIGNUM.
   opaque function void sigaction(num signum, alias num connect_val) end
 
@@ -1049,22 +1247,26 @@ module _base_ (sysmodule, noview)
   opaque function void socketclose(socketdev Socket) end
 
   !SocketConnect - Connect to a remote computer
-  function void socketconnect(socketdev Socket, string Address, num port, num Time = 60)
-    var num timeout = 60;
-    if (present(Time)) then
-      timeout = Time;
-    end
-    base_socketconnect(Socket, Address,  port, timeout);
-  end
+  opaque function void socketconnect(socketdev Socket, string Address, num port,
+                                     num Time = 60) end
+
+  !SocketCreateTcp - Create a new tcp socket
+  opaque function void socketcreatetcp(alias socketdev Socket) end
+
+  !SocketCreateUdp - Create a new udp socket
+  opaque function void socketcreateudp(alias socketdev Socket) end
 
   !SocketCreate - Create a new socket
-  function void socketcreate(alias socketdev Socket, num TCP = 0,num UDP = 0)
-    if (present(TCP)) then
+  function void socketcreate(alias socketdev Socket, bool TCP = false, bool UDP = false)
+    if (TCP == true) then
       socketcreatetcp(Socket);
-    elseif (present(UDP)) then
+    elseif (UDP == true) then
       socketcreateudp(Socket);
     end
   end
+
+  !SocketGetStatus - Get current socket status
+  opaque function num socketgetstatus(socketdev Socket) end
 
   !SocketListen - Listen for incoming connections
   opaque function void socketlisten(socketdev Socket) end
@@ -1072,8 +1274,16 @@ module _base_ (sysmodule, noview)
   !SocketReceive - Receive data from remote computer
   opaque function void socketreceive(socketdev Socket, alias string data) end
 
+  !SocketReceiveFrom - Receive data from remote computer
+  opaque function void socketreceivefrom(socketdev Socket, string ip, num port,
+                                         string data) end
+
   !SocketSend - Send data to remote computer
   opaque function void socketsend(socketdev Socket, string data) end
+
+  !SocketSendTo - Send data to remote computer
+  opaque function void socketsendto(socketdev Socket, string ip, num port,
+                                    string data) end
 
   !Sqrt - Calculates the square root value
   opaque function num sqrt(num data) end
@@ -1118,6 +1328,31 @@ module _base_ (sysmodule, noview)
     end
   end
 
+  ! strfind searches in STR, starting at POS, for a character that belongs to
+  ! SET. When NotInSet is true, searches for a character not in the set.
+  opaque function num strfind(string str, num pos, string set, num NotInSet = 0)
+  end
+
+  ! strlen return length of STR.
+  opaque function num strlen(string str) end
+
+  ! strmap creates a copy of a STR, and maps all characters in FROMMAP to TOMAP.
+  opaque function string strmap(string str, string frommap, string tomap) end
+
+  ! strmatch searches STR using PATTERN, starting at OFF. It returns the offset
+  ! of the first substring.
+  opaque function num strmatch(string str, num off, string patten) end
+
+  ! strmemb checks whether SRC[INDEX] belongs to char set SEARCH.
+  opaque function bool strmemb(string str, num index, string search) end
+
+  ! strorder compares STR and STR1, returns a boolean indicating whether the
+  ! two are in order according to a specified character ordering sequence ORDER.
+  opaque function bool strorder(string str, string str1, string order) end
+
+  ! strpart finds part of STR from PART_OFF and with PART_LEN.
+  opaque function string strpart(string str, num part_off, num part_len) end
+
   opaque function num strtonum(string str) end
 
   opaque function bool strtoval(string str, alias anytype data) end
@@ -1128,69 +1363,63 @@ module _base_ (sysmodule, noview)
   !TanR (Tangent) is used to calculate the tangent value from an radian value
   opaque function num tanr(num data) end
 
-  opaque function void twrite_bool(bool data) end
+  !Trunc - Truncates a numeric value
+  opaque function num trunc(num val, num dec = 0) end
 
-  opaque function void twrite_bool_internal(bool data) end
-
-  opaque function void twrite_num(num data) end
-
-  opaque function void twrite_num_internal(num data) end
-
-  opaque function void twrite_orient(orient data) end
-
-  opaque function void twrite_orient_internal(orient data) end
-
-  opaque function void twrite_pos(pos data) end
-
-  opaque function void twrite_pos_internal(pos data) end
-
-  opaque function void twrite_string(string data) end
-
-  opaque function void twrite_string_internal(string data) end
+  !Type returns DATA type in string
+  opaque function string type(anytype data) end
 
   ! TWrite - Writes on the teach pendant
-  function void twrite(string text, num ndata = 0,
-                        bool bdata = false, pos pdata = [0, 0, 0],
-                        orient odata = [0, 0, 0, 0])
-    twrite_string_internal(text);
-    if (present(ndata)) then
-      twrite_num_internal(ndata);
-    elseif (present(bdata)) then
-      twrite_bool_internal(bdata);
-    elseif (present(pdata)) then
-      twrite_pos_internal(pdata);
-    elseif (present(odata)) then
-      twrite_orient_internal(odata);
-    end
-    twrite_string_internal("\n");
+  opaque function void twrite(string format, num ndata = 0,
+                              bool bdata = false, pos pdata = [0, 0, 0],
+                              orient odata = [0, 0, 0, 0]) end
+
+  function void twrite_bool(bool data)
+    twrite("%b", bdata = data);
+  end
+
+  function void twrite_num(num data)
+    twrite("%n", ndata = data);
+  end
+
+  function void twrite_orient(orient data)
+    twrite("%o", odata = data);
+  end
+
+  function void twrite_pos(pos data)
+    twrite("%p", pdata = data);
+  end
+
+  function void twrite_string(string data)
+    twrite(data);
   end
 
   opaque function void unpackrawbytes_ascii(alias string Value, rawbytes rawdata,
                                            num StartIndex, num StrLen) end
 
   opaque function void unpackrawbytes_float(alias num Value, rawbytes rawdata,
-                                            num StartIndex, num Network) end
+                                            num StartIndex, bool Network) end
 
   opaque function void unpackrawbytes_hex(alias num Value, rawbytes rawdata,
                                           num StartIndex) end
 
   opaque function void unpackrawbytes_int(alias num Value, rawbytes rawdata,
-                                          num StartIndex, num Network,
+                                          num StartIndex, bool Network,
                                           num IntTypes) end
 
   function void unpackrawbytes(rawbytes rawdata, alias num Value,
-                               num Network = 0, num StartIndex = 1,
-                               num Hex1 = 0,  num Intx = 0, num Float4 = 0)
+                               bool Network = false, num StartIndex = 1,
+                               bool Hex1 = false,  num Intx = 0, bool Float4 = false)
     var num inttypes = 0;
-    var num netflag = 0;
+    var bool netflag = false;
     var num data;
-    if(present(Hex1))then
+    if(Hex1 == true)then
       unpackrawbytes_hex(Value, rawdata, StartIndex);
-    elseif (present(Intx)) then
+    elseif (Intx == 1) then
       inttypes = Intx;
       netflag = Network;
       unpackrawbytes_int(Value, rawdata, StartIndex, netflag, inttypes);
-    elseif (present(Float4)) then
+    elseif (Float4 == true) then
       netflag = Network;
       unpackrawbytes_float(Value, rawdata, StartIndex, netflag);
     end
@@ -1203,15 +1432,27 @@ module _base_ (sysmodule, noview)
     unpackrawbytes_ascii(Value, rawdata, StartIndex, strlen);
   end
 
+  opaque function string valtostr(anytype data) end
+
+  opaque function num vectmagn(pos vect) end
+
   opaque function void waittime(num time) end
 
-  opaque function void writeanybin(alias iodev iodevice, alias anytype data) end
+  opaque function void writeanybin(alias iodev iodevice, anytype data) end
 
   !WriteBin - Writes to a binary serial channel
   function void writebin(iodev iodevice, num buffer{*}, num nchar)
     for i from 1 to nchar do
       writeanybin(iodevice, buffer{i});
     end
+  end
+
+  function void writeerror(string str)
+    log_error(str);
+  end
+
+  function void writeinfo(string str)
+    log_info(str);
   end
 
   !WriteRawBytes - Write rawbytes data
@@ -1221,6 +1462,10 @@ module _base_ (sysmodule, noview)
   !WriteStrBin - Writes a string to a binary serial channel
   function void writestrbin(iodev iodevice, string str)
     writeanybin(iodevice, str);
+  end
+
+  function void writewarn(string str)
+    log_warning(str);
   end
   !}
 

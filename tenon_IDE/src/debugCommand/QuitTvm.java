@@ -1,12 +1,15 @@
 package debugCommand;
 
-import debugCommand.Utils.PutCommand;
-import debugCommand.Utils.TakeCommand;
-import debugCommand.constant.ConstantString;
+import debugCommand.Utils.CommandUtils;
+import debugCommand.constant.TenonCommandString;
+import debugview.breakpointview.DebugBreakpointList;
+import debugview.constant.ViewConstant;
+import debugview.utils.ViewUtils;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.ui.PartInitException;
 
 /**
  * @ClassName: QuitTvm
@@ -16,23 +19,34 @@ import org.eclipse.core.commands.ExecutionException;
  * 
  */
 public class QuitTvm extends AbstractHandler {
-	
-	//Will be removed, keep for test purpose
+
+	@SuppressWarnings("static-access")
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		Thread quitThread = new Thread(new PutCommand(ConstantString.TVMQUIT));
-		Thread takeCommandThread = new Thread(new TakeCommand());
+		CommandUtils.executeCommand(TenonCommandString.TVMQUIT);
 
-		quitThread.start();
-		takeCommandThread.start();
-
+		try {
+			ViewUtils.closeOropenView(ViewConstant.DEBUGVARIABLEVIEW, false);
+			ViewUtils.closeOropenView(ViewConstant.DEBUGBREAKPOINTVIEW, false);
+			OpenTvmMode.getTvmThread().tvmThreadPocess = null;
+			DebugBreakpointList.clearBreakpointCounts();
+		} catch (PartInitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
-	
-	public static void quitTvmUI() {
-		Thread quitThread = new Thread(new PutCommand(ConstantString.TVMQUIT));
-		Thread takeCommandThread = new Thread(new TakeCommand());
 
-		quitThread.start();
-		takeCommandThread.start();
+	public static void quitTvmUI() {
+		CommandUtils.executeCommand(TenonCommandString.TVMQUIT);
+
+		try {
+			ViewUtils.closeOropenView(ViewConstant.DEBUGVARIABLEVIEW, false);
+			ViewUtils.closeOropenView(ViewConstant.DEBUGBREAKPOINTVIEW, false);
+			OpenTvmMode.getTvmThread().tvmThreadPocess = null;
+			DebugBreakpointList.clearBreakpointCounts();
+		} catch (PartInitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
